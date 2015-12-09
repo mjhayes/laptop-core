@@ -1,0 +1,6 @@
+#!/bin/bash
+
+datestr=$(date "+%A, %d %B, %H:%M")
+delay=5
+
+echo "$datestr" | core-osd_cat -d $delay

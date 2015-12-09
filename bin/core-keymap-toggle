@@ -1,0 +1,34 @@
+#!/bin/bash
+
+mymaps=('us' 'dvorak')
+
+function index_of()
+{
+  local haystack
+  declare -a haystack=("${!1}")
+  local needle=$2
+
+  for ((i=0;i<${#haystack};i++)); do
+    if [ "${haystack[$i]}" = "$needle" ]; then
+      return $i
+    fi
+  done
+  return -1
+}
+
+curmap=$(setxkbmap -query | grep layout | cut -d ':' -f 2 | tr -d '[:space:]')
+
+index_of mymaps[@] $curmap
+cur_idx=$?
+if [ $cur_idx -lt 0 ]; then
+  cur_idx=0
+else
+  ((cur_idx++))
+fi
+
+if [ $cur_idx -ge ${#mymaps} ]; then
+  cur_idx=0
+fi
+
+setxkbmap "${mymaps[$cur_idx]}"
+echo "Keyboard Layout: ${mymaps[$cur_idx]}" | core-osd_cat -d 2

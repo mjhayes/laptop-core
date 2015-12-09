@@ -1,0 +1,3 @@
+#!/bin/bash
+
+while read a; do echo "$a"; done | osd_cat -p middle -A center -c green -f '-bitstream-bitstream vera sans-bold-r-*-*-20-*-*-*-*-*-*-*' --outline=1 "$@"

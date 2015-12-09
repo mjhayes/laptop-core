@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while read a; do
+  if [ -d "$a" ]; then
+    continue
+  fi
+  grep "$@" --color -H -n "$a"
+done

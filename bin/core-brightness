@@ -1,0 +1,26 @@
+#!/bin/bash
+
+sys_brightness=/sys/class/backlight/intel_backlight/brightness
+
+if [ $# -lt 2 ]; then
+  echo "$0 <up|down> <step>" > /dev/stderr
+  exit 1
+fi
+
+cmd=$1
+step=$2
+
+cur_val=$(cat $sys_brightness)
+if [ "$cmd" = "up" ]; then
+  new_val=$((cur_val + step))
+else
+  new_val=$((cur_val - step))
+fi
+
+if [ $new_val -lt 0 ]; then
+  new_val=0
+fi
+
+echo "$cur_val $new_val"
+
+echo "$new_val" | sudo tee $sys_brightness
